@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Câmbio — Manual Interativo para Principiantes</title>
+<style>
+  :root{
+    --orange:#ff6a00;
+    --orange-bright:#ff8c1a;
+    --orange-d:#d94f00;
+    --blue:#0a5cff;
+    --blue-bright:#3b82f6;
+    --blue-d:#0a3dbf;
+    --sand:#f7e9d5;
+    --sand-d:#e6cfa9;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --bg:#fff8ee;
+    --card:#ffffff;
+    --radius:18px;
+    --pink:#ec4899;
+    --green:#10b981;
+    --yellow:#facc15;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{line-height:1.15;margin:0 0 .5em;letter-spacing:-.02em;}
+  a{color:var(--blue);}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 16px;}
+
+  kbd{
+    background:#fff3e0;border-radius:4px;padding:2px 6px;
+    font-size:.75rem;border:1px solid #ffb877;
+    box-shadow:0 1px 0 #d94f00;font-family:inherit;color:var(--orange-d);
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,248,238,.92);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:2px solid #ffe2c4;
+  }
+  .nav-inner{
+    max-width:1000px;margin:0 auto;padding:10px 16px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .brand{
+    font-weight:900;letter-spacing:.08em;font-size:.9rem;
+    background:linear-gradient(100deg,var(--orange) 20%,var(--pink) 60%,var(--blue) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    white-space:nowrap;
+  }
+  .nav nav{display:flex;gap:2px;}
+  .nav nav a{
+    text-decoration:none;color:var(--ink);font-size:.78rem;font-weight:700;
+    padding:7px 10px;border-radius:999px;transition:.2s;white-space:nowrap;
+  }
+  .nav nav a:hover{background:#ffe2c4;color:var(--orange-d);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:56px 16px 44px;
+    text-align:center;
+    background:
+      radial-gradient(900px 420px at 50% -10%, #ffd9a8 0%, transparent 65%),
+      radial-gradient(700px 400px at 10% 100%, #ffc7e0 0%, transparent 70%),
+      radial-gradient(700px 400px at 90% 100%, #b8d4ff 0%, transparent 70%),
+      linear-gradient(180deg,#fff5e6,#fff8ee);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      radial-gradient(circle at 15% 25%, rgba(255,106,0,.18) 0, transparent 8px),
+      radial-gradient(circle at 85% 35%, rgba(236,72,153,.15) 0, transparent 8px),
+      radial-gradient(circle at 45% 80%, rgba(10,92,255,.15) 0, transparent 8px);
+    background-size:200px 200px, 260px 260px, 300px 300px;
+    pointer-events:none;
+    animation:floatBg 24s linear infinite;
+  }
+  @keyframes floatBg{
+    0%{background-position:0 0, 0 0, 0 0;}
+    100%{background-position:200px 200px, -260px 260px, 300px -300px;}
+  }
+  .hero h1{
+    font-size:clamp(2.8rem,13vw,6rem);
+    font-weight:900;
+    letter-spacing:-.05em;
+    margin-bottom:.05em;
+    background:linear-gradient(110deg,#ff6a00 0%,#ff3d8b 45%,#0a5cff 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    position:relative;
+    filter:drop-shadow(0 4px 20px rgba(255,106,0,.25));
+    animation:gradientShift 8s ease infinite;
+    background-size:200% 200%;
+  }
+  @keyframes gradientShift{
+    0%,100%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+  }
+  .hero .sub{
+    font-size:clamp(1rem,3.8vw,1.2rem);
+    color:var(--orange-d);
+    font-style:italic;
+    font-weight:600;
+    margin:0 0 22px;
+    max-width:720px;
+    margin-left:auto;margin-right:auto;
+    line-height:1.45;
+    position:relative;
+    padding:0 8px;
+  }
+  .hero .sub strong{color:var(--pink);font-weight:800;}
+  .hero .lead{
+    max-width:620px;margin:0 auto 30px;font-size:clamp(.95rem,3.6vw,1.05rem);color:#334155;
+    position:relative;
+  }
+  .hero .lead strong{color:var(--orange-d);font-weight:800;}
+  .cta{
+    display:inline-block;
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    color:#fff;text-decoration:none;
+    font-weight:800;padding:16px 34px;border-radius:999px;
+    box-shadow:0 14px 32px -10px rgba(255,61,139,.7), 0 6px 14px -6px rgba(255,106,0,.8);
+    transition:.25s;font-size:1rem;
+    min-height:52px;line-height:1.2;
+    position:relative;
+    letter-spacing:.01em;
+  }
+  .cta:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 20px 40px -12px rgba(255,61,139,.8), 0 8px 20px -8px rgba(255,106,0,.9);}
+  .cta:active{transform:scale(.97);}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:48px 0;}
+  .sec-title{
+    font-size:clamp(1.5rem,6vw,2.2rem);
+    font-weight:900;
+    margin-bottom:8px;
+    letter-spacing:-.03em;
+  }
+  .sec-kicker{
+    text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;
+    font-weight:900;
+    background:linear-gradient(90deg,var(--orange),var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:10px;
+    display:inline-block;
+  }
+  .sec-intro{color:var(--muted);max-width:660px;margin-bottom:28px;font-size:clamp(.9rem,3.4vw,1rem);}
+  .sec-intro strong{color:var(--orange-d);}
+
+  /* ---------- ABAS ---------- */
+  .tabs-section{
+    background:linear-gradient(180deg,#fff5e6,#fff8ee);
+    border-top:2px solid #ffe2c4;border-bottom:2px solid #ffe2c4;
+    padding:48px 0;
+    position:relative;
+  }
+  .tabs-header{
+    display:flex;gap:6px;margin-bottom:24px;
+    overflow-x:auto;overflow-y:hidden;
+    padding:8px;border-radius:16px;
+    background:#fff;border:2px solid #ffe2c4;
+    box-shadow:0 8px 20px -10px rgba(255,106,0,.3);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabs-header::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    font-family:inherit;font-size:.82rem;font-weight:800;
+    padding:10px 16px;border-radius:12px;border:none;
+    background:transparent;color:var(--muted);cursor:pointer;
+    transition:.2s;white-space:nowrap;flex-shrink:0;
+    min-height:42px;
+  }
+  .tab-btn:hover{background:#ffe2c4;color:var(--orange-d);}
+  .tab-btn.active{
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    color:#fff;
+    box-shadow:0 8px 18px -8px rgba(255,61,139,.75);
+    transform:translateY(-1px);
+  }
+  .tab-panel{display:none;animation:fadeUp .35s ease;}
+  .tab-panel.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- CARDS ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .card{
+    background:var(--card);border:2px solid #ffe2c4;border-radius:var(--radius);
+    padding:20px;box-shadow:0 6px 20px -12px rgba(255,106,0,.35);
+    transition:.25s;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 26px -12px rgba(255,61,139,.45);border-color:#ffc7a1;}
+  .card .ico{font-size:1.9rem;display:block;margin-bottom:8px;filter:drop-shadow(0 3px 6px rgba(255,106,0,.25));}
+  .card h3{font-size:1rem;margin-bottom:6px;color:var(--orange-d);}
+  .card p{margin:0;font-size:.9rem;color:#4b5563;}
+
+  /* ==========================================================
+     QUADRA INTERATIVA
+     ========================================================== */
+  .arena-shell{
+    background:linear-gradient(180deg,#ffffff,#fffaf3);
+    border:2px solid #ffe2c4;
+    border-radius:24px;
+    padding:16px;
+    box-shadow:0 24px 60px -30px rgba(255,106,0,.5), 0 10px 30px -15px rgba(255,61,139,.35);
+    position:relative;
+  }
+  .arena{
+    position:relative;width:100%;max-width:660px;margin:0 auto;
+    aspect-ratio:4/3;
+    background:
+      radial-gradient(circle at 50% 50%, #ffe4a8 0%, #fdc978 60%, #f5a742 100%);
+    border-radius:16px;
+    border:3px solid #d98a2e;
+    overflow:hidden;
+    --chip:clamp(30px,8.5vw,46px);
+    box-shadow:inset 0 0 40px rgba(180,90,0,.15);
+  }
+  .net{
+    position:absolute;left:0;top:1.4%;width:100%;height:3.4%;
+    background:
+      repeating-linear-gradient(90deg,#0a3dbf 0 3px,transparent 3px 9px),
+      repeating-linear-gradient(0deg,#0a3dbf 0 2px,transparent 2px 7px),
+      #93c5fd;
+    border:2px solid #0a3dbf;border-radius:4px;
+    box-shadow:0 4px 12px rgba(10,61,191,.35);
+  }
+  .line3m{
+    position:absolute;left:0;top:33.3%;width:100%;height:0;
+    border-top:3px dashed rgba(10,92,255,.65);
+  }
+  .line3m span{
+    position:absolute;right:6px;top:-1.4em;
+    font-size:clamp(8px,1.7vw,10px);letter-spacing:.08em;
+    color:#0a3dbf;font-weight:900;text-transform:uppercase;
+    background:rgba(255,255,255,.85);
+    padding:2px 8px;border-radius:6px;
+    border:1px solid rgba(10,92,255,.3);
+  }
+
+  .marker{
+    position:absolute;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    z-index:2;transition:.3s;
+  }
+  .marker .circle{
+    width:var(--chip);height:var(--chip);border-radius:50%;
+    border:3px dashed rgba(217,138,46,.65);
+    background:rgba(255,255,255,.85);
+    transition:.3s;
+    box-shadow:0 3px 8px rgba(150,80,0,.15), inset 0 0 8px rgba(255,220,150,.5);
+  }
+  .marker .number{
+    font-size:clamp(11px,2.5vw,14px);font-weight:900;
+    color:#8a5a1f;
+    background:linear-gradient(180deg,#fff,#ffeec9);
+    padding:2px 8px;border-radius:8px;line-height:1.2;
+    letter-spacing:.04em;
+    box-shadow:0 2px 6px rgba(150,80,0,.2);
+    border:1px solid rgba(217,138,46,.35);
+  }
+  .marker.eight .circle{
+    border-color:var(--orange);background:rgba(255,106,0,.2);
+    border-style:solid;border-width:3px;
+    box-shadow:0 0 0 5px rgba(255,106,0,.18), 0 4px 12px rgba(255,106,0,.35);
+  }
+  .marker.eight .number{
+    color:#fff;
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    border-color:transparent;
+    box-shadow:0 3px 10px rgba(255,61,139,.45);
+  }
+  .marker.changed .circle{
+    background:rgba(10,92,255,.2);
+    border-color:var(--blue);
+    border-style:solid;
+    box-shadow:0 0 0 5px rgba(10,92,255,.18), 0 4px 12px rgba(10,92,255,.35);
+  }
+  .marker.changed .number{
+    color:#fff;
+    background:linear-gradient(135deg,#0a5cff,#3b82f6);
+    border-color:transparent;
+    box-shadow:0 3px 10px rgba(10,92,255,.5);
+  }
+  .marker.origin .circle{
+    background:rgba(255,61,139,.25);
+    border-color:var(--pink);
+    border-style:solid;
+    box-shadow:0 0 0 5px rgba(255,61,139,.2), 0 4px 12px rgba(255,61,139,.4);
+  }
+  .marker.origin .number{
+    color:#fff;
+    background:linear-gradient(135deg,#ff3d8b,#ec4899);
+    border-color:transparent;
+    box-shadow:0 3px 10px rgba(255,61,139,.5);
+  }
+
+  .chip{
+    position:absolute;transform:translate(-50%,-50%);
+    width:var(--chip);height:var(--chip);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:900;font-size:clamp(10px,2.2vw,13px);
+    letter-spacing:.02em;
+    box-shadow:
+      0 4px 12px -3px rgba(0,0,0,.55),
+      0 2px 4px rgba(0,0,0,.25),
+      inset 0 -3px 0 rgba(0,0,0,.2),
+      inset 0 2px 4px rgba(255,255,255,.35);
+    transition:left .8s cubic-bezier(.45,0,.25,1.15), top .8s cubic-bezier(.45,0,.25,1.15), box-shadow .3s, outline-color .3s, transform .3s;
+    outline:3px solid transparent; outline-offset:2px;
+    z-index:5;cursor:pointer;
+    border:2px solid rgba(255,255,255,.9);
+    will-change:left, top;
+    text-shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+  .chip:active{transform:translate(-50%,-50%) scale(.94);}
+  .chip.thrower{
+    outline-color:#111827;
+    box-shadow:
+      0 0 0 5px rgba(255,106,0,.75),
+      0 0 0 9px rgba(255,61,139,.35),
+      0 10px 22px -4px rgba(0,0,0,.5);
+    z-index:9;
+    transform:translate(-50%,-50%) scale(1.15);
+    animation:throwerPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes throwerPulse{
+    0%,100%{
+      box-shadow:
+        0 0 0 5px rgba(255,106,0,.75),
+        0 0 0 9px rgba(255,61,139,.35),
+        0 10px 22px -4px rgba(0,0,0,.5);
+    }
+    50%{
+      box-shadow:
+        0 0 0 5px rgba(255,106,0,.9),
+        0 0 0 12px rgba(255,61,139,.2),
+        0 10px 22px -4px rgba(0,0,0,.55);
+    }
+  }
+  .chip.thrower::after{
+    content:'🏐';position:absolute;top:-1.6em;font-size:1em;
+    animation:bob 1.4s ease-in-out infinite;
+    filter:drop-shadow(0 3px 5px rgba(0,0,0,.4));
+  }
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-6px) rotate(8deg)}}
+
+  .chip.moving::before{
+    content:'';position:absolute;inset:-8px;border-radius:50%;
+    border:3px solid #fff;animation:ripple .9s ease-out;
+    pointer-events:none;
+    box-shadow:0 0 20px rgba(255,255,255,.8);
+  }
+  @keyframes ripple{
+    0%{transform:scale(.85);opacity:1;}
+    100%{transform:scale(2.2);opacity:0;}
+  }
+
+  .chip .ghost-arrow{
+    position:absolute;top:-6px;right:-6px;
+    width:16px;height:16px;border-radius:50%;
+    background:linear-gradient(135deg,#ff3d8b,#ff6a00);
+    color:#fff;
+    font-size:10px;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.4), 0 0 0 2px #fff;
+    opacity:0;transition:opacity .3s;z-index:10;
+  }
+  .chip.thrower .ghost-arrow{opacity:1;}
+
+  .path-svg{
+    position:absolute;inset:0;width:100%;height:100%;
+    pointer-events:none;opacity:0;transition:opacity .4s;z-index:1;
+  }
+  .path-svg.show{opacity:1;}
+  .path-svg polyline{
+    fill:none;stroke:url(#pathGrad);stroke-width:3;
+    stroke-dasharray:10 8;stroke-linecap:round;stroke-linejoin:round;
+    animation:flow 1.6s linear infinite;
+    filter:drop-shadow(0 2px 4px rgba(10,92,255,.5));
+  }
+  @keyframes flow{to{stroke-dashoffset:-36;}}
+
+  .court-controls{
+    display:grid;grid-template-columns:1fr;gap:10px;margin-top:20px;
+  }
+  .btn{
+    font-family:inherit;font-weight:800;font-size:.95rem;
+    border-radius:14px;padding:16px 20px;border:2px solid transparent;
+    cursor:pointer;transition:.2s;min-height:54px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    letter-spacing:.02em;-webkit-user-select:none;user-select:none;
+  }
+  .btn-main{
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    color:#fff;
+    box-shadow:0 12px 26px -12px rgba(255,61,139,.9), 0 4px 12px -4px rgba(255,106,0,.7);
+    font-size:1.1rem;
+    letter-spacing:.03em;
+    text-shadow:0 1px 2px rgba(0,0,0,.2);
+  }
+  .btn-main:hover{
+    transform:translateY(-2px) scale(1.02);
+    box-shadow:0 16px 32px -12px rgba(255,61,139,1), 0 6px 16px -4px rgba(255,106,0,.85);
+    filter:brightness(1.05);
+  }
+  .btn-main:active{transform:scale(.97);}
+  .btn-ghost{
+    background:#fff;color:var(--blue-d);border-color:#c7d7ff;
+    font-size:.88rem;padding:13px 16px;min-height:48px;
+    font-weight:800;
+  }
+  .btn-ghost:hover{background:#eef3ff;border-color:var(--blue);color:var(--blue);transform:translateY(-1px);}
+  .btn-ghost.on{
+    background:linear-gradient(135deg,#0a5cff,#3b82f6);
+    color:#fff;border-color:transparent;
+    box-shadow:0 8px 18px -10px rgba(10,92,255,.9);
+  }
+
+  @media (min-width:520px){
+    .court-controls{grid-template-columns:1fr 1fr;}
+    .btn-main{grid-column:1 / -1;}
+  }
+  @media (min-width:760px){
+    .court-controls{grid-template-columns:1fr 1fr 1fr;}
+    .btn-main{grid-column:auto;font-size:.95rem;padding:14px 20px;min-height:48px;}
+  }
+
+  .status{
+    margin-top:16px;
+    background:linear-gradient(135deg,#fff5e6,#ffe4f0);
+    border:2px solid #ffc7a1;
+    border-radius:16px;
+    padding:16px 18px;font-size:.9rem;text-align:center;
+    min-height:60px;display:flex;align-items:center;justify-content:center;
+    transition:.3s;flex-direction:column;gap:6px;
+    box-shadow:0 8px 20px -14px rgba(255,61,139,.4);
+  }
+  .status.pulse{animation:pulse .8s ease;}
+  @keyframes pulse{
+    0%{background:linear-gradient(135deg,#ffd9a8,#ffc7e0);transform:scale(1.03);}
+    100%{background:linear-gradient(135deg,#fff5e6,#ffe4f0);transform:scale(1);}
+  }
+  .status .small{font-size:.78rem;color:var(--muted);}
+  .status strong{color:var(--orange-d);}
+
+  .rodada-badge{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    font-size:.75rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:12px;padding:0 4px;
+  }
+  .rodada-badge .num{
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    color:#fff;padding:5px 14px;border-radius:999px;
+    font-size:.85rem;letter-spacing:.04em;
+    box-shadow:0 4px 12px -4px rgba(255,61,139,.8);
+    min-width:38px;text-align:center;
+  }
+  .rodada-badge .hint{font-size:.68rem;letter-spacing:.06em;color:#b0752a;font-weight:800;}
+
+  .legend{
+    display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:center;
+    margin-top:14px;font-size:.75rem;color:var(--muted);font-weight:600;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .legend .dot{
+    width:14px;height:14px;border-radius:50%;display:inline-block;
+  }
+  .legend .dot.thrower-dot{
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    border:2px solid #111827;
+    box-shadow:0 0 8px rgba(255,61,139,.6);
+  }
+  .legend .dot.changed-dot{
+    background:linear-gradient(135deg,#0a5cff,#3b82f6);
+    border:2px solid #0a3dbf;
+  }
+
+  .touch-row{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    padding:14px 0;border-bottom:2px dashed #ffe2c4;
+  }
+  .touch-row:last-child{border-bottom:none;}
+  .touch-label{
+    font-weight:900;font-size:.8rem;width:80px;color:var(--blue-d);
+    text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;
+  }
+  .node{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:60px;padding:8px 14px;border-radius:999px;
+    font-weight:800;font-size:.82rem;border:2px solid;
+  }
+  .node.plain{background:#eff6ff;border-color:#93c5fd;color:var(--blue-d);}
+  .node.eight{
+    background:linear-gradient(135deg,#ff6a00,#ff3d8b);
+    border-color:transparent;color:#fff;
+    box-shadow:0 4px 10px -4px rgba(255,61,139,.7);
+  }
+  .arrow{color:#e0a24f;font-weight:900;}
+  .net-word{font-size:.78rem;color:var(--muted);font-style:italic;font-weight:600;}
+
+  .rules{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media (min-width:640px){.rules{grid-template-columns:1fr 1fr;}}
+  .rule-box{border-radius:var(--radius);padding:20px;border:2px solid;box-shadow:0 6px 18px -14px rgba(0,0,0,.3);}
+  .rule-box.yes{background:linear-gradient(180deg,#f0fdf4,#dcfce7);border-color:#4ade80;}
+  .rule-box.no{background:linear-gradient(180deg,#fef2f2,#fee2e2);border-color:#f87171;}
+  .rule-box h3{font-size:.95rem;letter-spacing:.04em;text-transform:uppercase;}
+  .rule-box.yes h3{color:#15803d;}
+  .rule-box.no h3{color:#b91c1c;}
+  .rule-box ul{margin:0;padding-left:20px;font-size:.88rem;color:#374151;}
+  .rule-box li{margin-bottom:6px;}
+  .rule-box li::marker{color:inherit;}
+
+  .steps{list-style:none;padding:0;margin:0;counter-reset:s;}
+  .steps li{
+    counter-increment:s;position:relative;padding:12px 0 12px 50px;
+    border-bottom:2px dashed #ffe2c4;font-size:.9rem;
+  }
+  .steps li:last-child{border-bottom:none;}
+  .steps li::before{
+    content:counter(s);position:absolute;left:0;top:10px;
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,#0a5cff,#3b82f6);
+    color:#fff;font-weight:900;font-size:.9rem;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 12px -4px rgba(10,92,255,.7);
+  }
+
+  .play{list-style:none;padding:0;margin:0;}
+  .play li{
+    position:relative;padding:14px 0 14px 40px;border-bottom:2px dashed #ffe2c4;
+    font-size:.9rem;
+  }
+  .play li:last-child{border-bottom:none;}
+  .play li::before{
+    content:'●';position:absolute;left:12px;top:14px;
+    color:var(--orange);font-size:.8rem;
+    text-shadow:0 0 6px rgba(255,106,0,.5);
+  }
+  .play li::after{
+    content:'';position:absolute;left:15.5px;top:28px;bottom:-2px;width:2px;
+    background:linear-gradient(180deg,#ffc7a1,#ffe2c4);
+  }
+  .play li:last-child::after{display:none;}
+
+  .table-scroll{
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    margin-top:16px;border-radius:12px;border:2px solid #ffe2c4;
+    box-shadow:0 4px 14px -10px rgba(255,106,0,.4);
+  }
+  .table-scroll table{
+    width:100%;border-collapse:collapse;font-size:.82rem;min-width:420px;
+  }
+  .table-scroll thead tr{background:linear-gradient(90deg,#ffe2c4,#ffd0a1);text-align:left;}
+  .table-scroll th{color:var(--orange-d);font-weight:800;}
+  .table-scroll th,.table-scroll td{padding:10px 12px;vertical-align:top;}
+  .table-scroll tbody tr{border-bottom:1px solid #ffe2c4;}
+  .table-scroll tbody tr:last-child{border-bottom:none;}
+  .table-scroll tbody tr:nth-child(even){background:#fff9f0;}
+
+  .quiz-item{
+    background:#fff;border:2px solid #ffe2c4;border-radius:var(--radius);
+    padding:18px;margin-bottom:12px;
+    box-shadow:0 6px 18px -14px rgba(255,106,0,.4);
+    transition:.2s;
+  }
+  .quiz-item:hover{border-color:#ffc7a1;box-shadow:0 8px 22px -14px rgba(255,61,139,.5);}
+  .quiz-q{font-weight:800;margin-bottom:12px;font-size:.95rem;color:var(--ink);}
+  .quiz-opts{display:flex;flex-direction:column;gap:8px;}
+  @media (min-width:520px){.quiz-opts{flex-direction:row;flex-wrap:wrap;}}
+  .opt{
+    font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;
+    padding:12px 18px;border-radius:12px;border:2px solid #e5e7eb;
+    background:#fff;color:var(--ink);transition:.18s;text-align:left;
+    min-height:46px;
+  }
+  .opt:hover:not(:disabled){border-color:var(--orange);color:var(--orange-d);background:#fff5e6;transform:translateY(-1px);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{
+    background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+    border-color:#22c55e;color:#15803d;
+    box-shadow:0 4px 12px -6px rgba(34,197,94,.6);
+  }
+  .opt.wrong{
+    background:linear-gradient(135deg,#fee2e2,#fecaca);
+    border-color:#ef4444;color:#b91c1c;
+  }
+  .quiz-why{
+    margin-top:12px;font-size:.85rem;color:#4b5563;
+    background:linear-gradient(90deg,#eff6ff,#e0e7ff);
+    border-left:4px solid var(--blue);
+    padding:10px 14px;border-radius:0 10px 10px 0;display:none;
+    font-weight:500;
+  }
+  .quiz-why.show{display:block;}
+
+  details.gloss{
+    background:#fff;border:2px solid #ffe2c4;border-radius:12px;
+    padding:12px 16px;margin-bottom:8px;
+    transition:.2s;
+  }
+  details.gloss:hover{border-color:#ffc7a1;}
+  details.gloss[open]{background:linear-gradient(180deg,#fff9f0,#fff);}
+  details.gloss summary{
+    cursor:pointer;font-weight:800;font-size:.92rem;color:var(--blue-d);
+    list-style:none;padding:4px 0;min-height:32px;
+  }
+  details.gloss summary::-webkit-details-marker{display:none;}
+  details.gloss summary::before{
+    content:'＋ ';color:var(--orange);font-weight:900;
+    display:inline-block;margin-right:4px;transition:.2s;
+  }
+  details.gloss[open] summary::before{content:'− ';transform:rotate(0deg);}
+  details.gloss p{margin:8px 0 0;font-size:.88rem;color:#4b5563;}
+
+  .care{
+    background:linear-gradient(135deg,#0a5cff,#3b82f6 50%,#ec4899);
+    color:#fff;border-radius:22px;padding:30px 24px;
+    box-shadow:0 20px 50px -20px rgba(10,92,255,.7);
+  }
+  .care h2{color:#fff;}
+  .care .sec-intro{color:#e0e7ff;}
+  .care ul{padding-left:20px;margin:0;}
+  .care li{margin-bottom:10px;font-size:.9rem;color:#e0e7ff;}
+  .care li strong{color:#fff;}
+  .care li::marker{color:#fbbf24;}
+
+  footer{
+    padding:36px 16px 60px;text-align:center;color:var(--muted);font-size:.82rem;
+    border-top:2px solid #ffe2c4;margin-top:20px;
+    background:linear-gradient(180deg,#fff8ee,#fff5e6);
+  }
+  footer strong{
+    background:linear-gradient(90deg,#ff6a00,#ff3d8b);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-weight:900;
+  }
+
+  @media (max-width:520px){
+    .nav nav a{padding:6px 8px;font-size:.72rem;}
+    .nav-inner{padding:8px 12px;gap:8px;}
+    .brand{font-size:.8rem;}
+    section{padding:40px 0;}
+    .arena-shell{padding:12px;border-radius:16px;}
+    .arena{--chip:clamp(28px,9vw,40px);}
+    .card{padding:16px;}
+    .touch-label{width:100%;}
+    .status{font-size:.85rem;padding:12px 14px;}
+    .btn-main{font-size:1rem;padding:15px 18px;}
+    .quiz-item{padding:16px;}
+  }
+  @media (max-width:360px){
+    .arena{--chip:26px;}
+    .chip{font-size:9px;}
+    .marker .number{font-size:10px;}
+  }
+  @media (hover:none) and (pointer:coarse){
+    .chip{min-width:32px;min-height:32px;}
+    .btn{min-height:52px;}
+    .card:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<div class="nav">
+  <div class="nav-inner">
+    <span class="brand">🏐 CÂMBIO</span>
+    <nav>
+      <a href="#quadra">Quadra</a>
+      <a href="#abas">Guia</a>
+      <a href="#teste">Teste</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <h1>Câmbio</h1>
+  <p class="sub">"Passo a passo, passe a passe, coração a coração: o jeito feliz de se viver"</p>
+  <p class="lead">
+    Nove jogadores de cada lado. A bola é <strong>agarrada</strong>, não batida.
+    Ninguém salta. E a cada arremesso o time inteiro roda — e alguém grita
+    <strong>câmbio!</strong>
+  </p>
+  <a class="cta" href="#quadra">Ver a quadra girar →</a>
+</header>
+
+<!-- ============ QUADRA INTERATIVA ============ -->
+<section id="quadra">
+  <div class="wrap">
+    <p class="sec-kicker">Experimente</p>
+    <h2 class="sec-title">A quadra e as nove casas</h2>
+    <p class="sec-intro">
+      Toque em <strong>CÂMBIO!</strong> e veja cada jogador <strong>trocar de casa</strong>.
+      Os <span style="color:#0a5cff;font-weight:800;">números das casas que mudaram</span> acendem em azul;
+      o novo <strong>8</strong> ganha destaque rosa-laranja. O rodízio segue a ordem 1→2→3→4→5→6→7→8→9→1.
+    </p>
+
+    <div class="arena-shell">
+      <div class="rodada-badge">
+        <span>Rodada</span>
+        <span class="num" id="rodada">0</span>
+        <span class="hint" id="hint-rodada">aperte CÂMBIO</span>
+      </div>
+
+      <div class="arena" id="arena">
+        <div class="net"></div>
+        <div class="line3m"><span>linha dos 3 m</span></div>
+
+        <svg class="path-svg" id="pathSvg" viewBox="0 0 400 300" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0a5cff"/>
+              <stop offset="50%" stop-color="#ec4899"/>
+              <stop offset="100%" stop-color="#ff6a00"/>
+            </linearGradient>
+          </defs>
+          <polyline points="236,240 148,240 60,240 60,150 60,60 148,60 236,60 148,150 236,150 236,240" />
+        </svg>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot thrower-dot"></i> Quem está no 8 (arremessa)</span>
+        <span><i class="dot changed-dot"></i> Casas que acabaram de mudar</span>
+      </div>
+
+      <div class="court-controls">
+        <button class="btn btn-main" id="btnCambio" aria-label="Rodar o time uma casa">🔄 CÂMBIO!</button>
+        <button class="btn btn-ghost" id="btnPath">👁️ Mostrar caminho</button>
+        <button class="btn btn-ghost" id="btnReset">↺ Reiniciar</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <p style="text-align:center;color:var(--muted);font-size:.8rem;margin-top:16px;">
+      Dica: aperte a <kbd>barra de espaço</kbd> no teclado para rodar também.
+    </p>
+  </div>
+</section>
+
+<!-- ============ ABAS EXPLICATIVAS ============ -->
+<section id="abas" class="tabs-section">
+  <div class="wrap">
+    <p class="sec-kicker">Guia completo</p>
+    <h2 class="sec-title">Tudo o que você precisa saber</h2>
+    <p class="sec-intro">
+      Navegue pelas abas. Cada uma explica uma parte do jogo, na ordem em que as coisas
+      acontecem numa partida de verdade. Deslize para o lado para ver todas.
+    </p>
+
+    <div class="tabs-header" role="tablist">
+      <button class="tab-btn active" data-tab="tab-o-que-e" role="tab">O que é</button>
+      <button class="tab-btn" data-tab="tab-quadra" role="tab">A quadra</button>
+      <button class="tab-btn" data-tab="tab-saque" role="tab">O saque</button>
+      <button class="tab-btn" data-tab="tab-toques" role="tab">Bola presa</button>
+      <button class="tab-btn" data-tab="tab-rodizio" role="tab">O rodízio</button>
+      <button class="tab-btn" data-tab="tab-regras" role="tab">Regras</button>
+      <button class="tab-btn" data-tab="tab-jogada" role="tab">Uma jogada</button>
+      <button class="tab-btn" data-tab="tab-cuidados" role="tab">Cuidados</button>
+    </div>
+
+    <!-- ABA 1 -->
+    <div class="tab-panel active" id="tab-o-que-e">
+      <div class="grid3">
+        <div class="card">
+          <span class="ico">🤲</span>
+          <h3>A bola é presa</h3>
+          <p>Nada de rebater ou espalmar. A bola para na mão, dominada com as duas mãos, como quem recebe um prato quente.</p>
+        </div>
+        <div class="card">
+          <span class="ico">8️⃣</span>
+          <h3>Só o 8 devolve</h3>
+          <p>O jogador do centro da quadra é o único que manda a bola para o outro lado. Ele saca, ele arremessa, ele grita câmbio.</p>
+        </div>
+        <div class="card">
+          <span class="ico">🔄</span>
+          <h3>Todos rodam</h3>
+          <p>A cada arremesso, o time inteiro anda uma casa, na ordem dos números. Ninguém fica parado, ninguém fica de fora.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>De onde ele veio</h3>
+        <p>
+          O câmbio nasceu no <strong>Rio Grande do Sul</strong>, nos anos 1990. Foi criado por
+          professores de Educação Física e especialistas em envelhecimento de universidades
+          gaúchas, como UFRGS, Unisinos e UFSM, junto com o Sesc. A ideia era simples e bonita:
+          um esporte coletivo que coubesse no corpo de quem tem 60, 70, 80 anos, sem tirar
+          dele o gosto da disputa.
+        </p>
+        <p style="margin-top:12px;">
+          Deu certo. Em <strong>2019</strong>, Porto Alegre aprovou uma lei reconhecendo o câmbio
+          como esporte símbolo da pessoa idosa, e a federação gaúcha estima mais de cinco mil
+          praticantes no estado. O jogo subiu o mapa: chegou à Paraíba em 2018 e hoje já tem
+          associação, dezenas de times e até disputa na areia de Tambaú.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#eff6ff,#e0e7ff);border-color:#93c5fd;">
+        <h3>Por que o nome "câmbio"?</h3>
+        <p>
+          Câmbio quer dizer <strong>troca</strong>. Toda vez que o time devolve a bola, o jogador
+          do centro grita <em>"câmbio!"</em> e todos trocam de lugar. É o grito que dá nome
+          ao jogo e é o que você mais vai ouvir em quadra.
+        </p>
+        <p style="margin-top:12px;">
+          Gosto de pensar no câmbio como uma <strong>ciranda com uma rede no meio</strong>.
+          A cada troca, todo mundo muda de lugar, e quem estava no banco entra na roda.
+          Ninguém fica de fora por muito tempo.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 2 -->
+    <div class="tab-panel" id="tab-quadra">
+      <div class="card">
+        <h3>As nove casas</h3>
+        <p>
+          Cada jogador ocupa uma casa numerada. Saber o seu número é o primeiro passo,
+          e o mais importante. As nove posições formam três fileiras de três, como um
+          jogo da velha.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Fileira</th>
+                <th>Posições</th>
+                <th>Onde fica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Junto à rede</strong></td>
+                <td>5, 6 e 7</td>
+                <td>5 à esquerda, 6 no meio, 7 à direita</td>
+              </tr>
+              <tr>
+                <td><strong>Logo atrás da linha dos 3 m</strong></td>
+                <td>4, 8 e 9</td>
+                <td>4 à esquerda, <strong>8 no centro</strong>, 9 à direita</td>
+              </tr>
+              <tr>
+                <td><strong>No fundo da quadra</strong></td>
+                <td>3, 2 e 1</td>
+                <td>3 à esquerda, 2 no meio, 1 à direita</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#fff5e6,#ffe4d0);border-color:#ffc7a1;">
+        <h3>O coração do time: a posição 8</h3>
+        <p>
+          Guarde isto: <strong>só o jogador da posição 8</strong> pode mandar a bola para o
+          outro lado. Ele saca, ele devolve, ele grita câmbio. Mas ninguém é dono da posição 8.
+          Como todos mudam de lugar a cada troca, cada jogador passa pelo 8 muitas vezes na
+          mesma partida. Em algum momento, a vez é sua.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3>A linha dos 3 metros</h3>
+        <p>
+          É a linha tracejada que cruza a quadra perto da rede. Ela importa por um motivo:
+          o jogador da posição 8 <strong>não pode pisar nela nem passar dela</strong> na hora
+          de arremessar. Ele joga de trás da linha.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 3 -->
+    <div class="tab-panel" id="tab-saque">
+      <div class="card">
+        <h3>Como sacar, passo a passo</h3>
+        <ol class="steps" style="margin-top:16px;">
+          <li>O jogador da <strong>posição 8</strong> pega a bola.</li>
+          <li>Pode andar com ela à vontade, sem limite de passos, mas tem <strong>8 segundos</strong> para soltá-la.</li>
+          <li>Fica <strong>atrás da linha dos 3 metros</strong>, sem pisar nela.</li>
+          <li>Arremessa a bola por cima da rede, com as mãos, mirando a quadra adversária. <strong>Sem saltar.</strong></li>
+          <li>Assim que solta a bola, grita: <strong>"câmbio!"</strong></li>
+          <li>Todo o time dele troca de lugar (veja a aba <em>O rodízio</em>).</li>
+        </ol>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#4ade80;">
+        <h3>E se o saque der errado?</h3>
+        <p>
+          Se a bola bater na rede, passar por baixo dela ou cair fora da quadra adversária,
+          o saque falhou. No regulamento do Sesc gaúcho, nesse caso a bola passa para o outro
+          time; em vários torneios isso também conta ponto para o adversário. Combine com o
+          grupo antes do jogo qual das duas regras vale.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#eff6ff,#e0e7ff);border-color:#93c5fd;">
+        <p style="margin:0;">
+          💡 <strong>Dica de quem está aprendendo:</strong> no começo, não tente sacar forte
+          nem longe. Saque alto e seguro, que passe a rede com folga. Ponto bonito vem depois.
+          Primeiro vem a bola do lado certo.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 4 -->
+    <div class="tab-panel" id="tab-toques">
+      <div class="card">
+        <p>
+          Aqui mora a maior diferença em relação ao vôlei. A bola que chega <strong>não é
+          rebatida</strong>: é agarrada, como quem recebe um prato quente da mão da mãe.
+          Quando a bola vem do outro lado, qualquer jogador do time pode segurá-la. O jeito
+          certo é com as duas mãos, prendendo a bola junto ao corpo, sem deixá-la cair.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3>A regra dos três toques</h3>
+        <p>
+          Depois de presa, a bola pode passar por, no máximo, <strong>três mãos</strong> do
+          time. E a última mão tem de ser sempre a do jogador da posição 8, que devolve a bola.
+          Só existem três caminhos certos:
+        </p>
+
+        <div class="touch-row">
+          <span class="touch-label">1 toque</span>
+          <span class="node eight">8</span>
+          <span class="arrow">→</span>
+          <span class="net-word">por cima da rede</span>
+        </div>
+        <div class="touch-row">
+          <span class="touch-label">2 toques</span>
+          <span class="node plain">colega</span>
+          <span class="arrow">→</span>
+          <span class="node eight">8</span>
+          <span class="arrow">→</span>
+          <span class="net-word">por cima da rede</span>
+        </div>
+        <div class="touch-row">
+          <span class="touch-label">3 toques</span>
+          <span class="node plain">colega</span>
+          <span class="arrow">→</span>
+          <span class="node plain">colega</span>
+          <span class="arrow">→</span>
+          <span class="node eight">8</span>
+          <span class="arrow">→</span>
+          <span class="net-word">por cima da rede</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#fff5e6,#ffe4d0);border-color:#ffc7a1;">
+        <h3>⚠️ O que <em>não</em> conta como toque</h3>
+        <p style="margin:0;">
+          Se a bola escorrega e você bate nela duas ou três vezes tentando segurar, isso
+          <strong>não soma toques</strong>: conta só quando ela fica firme na mão. Na defesa,
+          vale até amortecer a bola com uma mão, desde que o mesmo jogador termine
+          segurando-a com as duas.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 5 -->
+    <div class="tab-panel" id="tab-rodizio">
+      <div class="card">
+        <h3>O grito que dá nome ao jogo</h3>
+        <p>
+          É a parte que mais confunde quem está começando. E é a mais bonita. Toda vez que
+          o 8 devolve a bola, o time inteiro muda de lugar.
+        </p>
+        <p style="margin-top:12px;">
+          Funciona assim: o 8 arremessa e grita <strong>"câmbio!"</strong>. Nesse instante,
+          cada jogador do time dele anda uma casa, para o número seguinte. Isso vale no saque
+          e vale em cada devolução durante a jogada. <strong>Só roda o time que arremessou.</strong>
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3>O caminho tem a forma de um caracol</h3>
+        <ol class="steps" style="margin-top:14px;">
+          <li>No fundo, da direita para a esquerda: quem está no <strong>1</strong> vai para o <strong>2</strong>; quem está no <strong>2</strong> vai para o <strong>3</strong>.</li>
+          <li>Sobe pelo lado esquerdo: do <strong>3</strong> para o <strong>4</strong>, do <strong>4</strong> para o <strong>5</strong>.</li>
+          <li>Atravessa a rede da esquerda para a direita: do <strong>5</strong> para o <strong>6</strong>, do <strong>6</strong> para o <strong>7</strong>.</li>
+          <li>Desce para o centro: do <strong>7</strong> para o <strong>8</strong>. Quem chega ao 8 será o próximo a arremessar.</li>
+          <li>Vai para a direita: o <strong>8</strong>, logo depois de arremessar, passa para o <strong>9</strong>.</li>
+          <li>E do <strong>9</strong> volta para o <strong>1</strong>, fechando o ciclo de nove casas.</li>
+        </ol>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:#f87171;">
+        <h3>⚠️ Atenção</h3>
+        <p style="margin:0;">
+          Rodar errado custa um ponto para o adversário. Por isso, nos primeiros treinos, vale
+          colocar um número em cada cone, ou cada jogador levar o seu número preso na camisa,
+          até a ciranda entrar no corpo. Os regulamentos falam em troca "na ordem dos números";
+          se o seu grupo fizer a entrada dos reservas por outro ponto, siga a regra local.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 6 -->
+    <div class="tab-panel" id="tab-regras">
+      <div class="rules">
+        <div class="rule-box yes">
+          <h3>✅ Pode</h3>
+          <ul>
+            <li>Segurar a bola com as duas mãos.</li>
+            <li>Tocar várias vezes na bola tentando dominá-la; só conta quando ela fica presa.</li>
+            <li>Amortecer com uma mão na defesa, se o mesmo jogador terminar segurando a bola.</li>
+            <li>Entregar a bola na mão do colega ou lançá-la para ele.</li>
+            <li>O 8 andar com a bola, sem limite de passos, dentro dos 8 segundos.</li>
+            <li>Homens e mulheres no mesmo time.</li>
+            <li>Combinar adaptações com o grupo antes do jogo, como a altura da rede.</li>
+          </ul>
+        </div>
+        <div class="rule-box no">
+          <h3>🚫 Não pode</h3>
+          <ul>
+            <li>Deixar a bola cair no chão.</li>
+            <li>Usar os pés para receber, dominar ou passar a bola.</li>
+            <li>Espalmar ou rebater a bola para o companheiro, como no vôlei.</li>
+            <li>Passar a bola por mais de três mãos, ou a última mão não ser a do 8.</li>
+            <li>Outro jogador, que não o 8, mandar a bola para o lado adversário.</li>
+            <li>O 8 saltar, pisar ou passar da linha dos 3 metros ao arremessar.</li>
+            <li>Passar dos 8 segundos com a bola na mão.</li>
+            <li>A bola não passar a rede ou cair fora da quadra.</li>
+            <li>Rodar fora da ordem.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;background:linear-gradient(135deg,#eff6ff,#e0e7ff);border-color:#93c5fd;">
+        <p style="margin:0;">
+          Cada "não pode" vira ponto para o outro time. Parece muita coisa, mas repare:
+          quase tudo é consequência de três ideias que você já conhece.
+          <strong>A bola é presa. Só o 8 devolve. E todos rodam na ordem.</strong>
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3>Pontos, tempo e torneios</h3>
+        <p>
+          Todo lance vale ponto. Errou, o outro time marca, e a bola recomeça com quem pontuou.
+          O time ganha ponto sempre que o adversário comete uma das faltas acima.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Sesc-RS (2022)</th>
+                <th>Porto Alegre (2019)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Equipe</strong></td>
+                <td>9 em quadra, até 12 inscritos</td>
+                <td>9 em quadra e 3 reservas</td>
+              </tr>
+              <tr>
+                <td><strong>Duração</strong></td>
+                <td>1 tempo de 15 min ou 15 pontos</td>
+                <td>2 tempos de 15 minutos</td>
+              </tr>
+              <tr>
+                <td><strong>Empate</strong></td>
+                <td>Mais 1 min; se persistir, vence quem fizer o ponto seguinte</td>
+                <td>Não informado</td>
+              </tr>
+              <tr>
+                <td><strong>Pedido de tempo</strong></td>
+                <td>1 por equipe</td>
+                <td>Não informado</td>
+              </tr>
+              <tr>
+                <td><strong>Altura da rede</strong></td>
+                <td>2,43 m</td>
+                <td>2,24 m fem.; 2,43 m masc.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:14px;font-size:.88rem;color:var(--muted);">
+          Para quem está começando, uma sugestão: jogue por pontos, até 15, sem relógio.
+          O relógio aperta; o placar ensina.
+        </p>
+      </div>
+    </div>
+
+    <!-- ABA 7 -->
+    <div class="tab-panel" id="tab-jogada">
+      <div class="card">
+        <p>
+          Agora vamos juntar tudo. Acompanhe uma jogada inteira, lance por lance,
+          entre o time Azul e o time Verde.
+        </p>
+        <ol class="play" style="margin-top:16px;">
+          <li>O sorteio deu a bola ao Azul. <strong>Dona Fátima</strong>, que está na posição 8, pega a bola, dá dois passos para trás da linha dos 3 metros e arremessa alto, por cima da rede.</li>
+          <li>Ela grita <strong>"câmbio!"</strong>. Todo o time Azul anda uma casa: Dona Fátima vai para o 9, quem estava no 7 desce para o 8.</li>
+          <li>No lado Verde, a bola cai perto do <strong>Seu João</strong>, na posição 2. Ele agarra com as duas mãos. <em>Primeiro toque.</em></li>
+          <li>Seu João lança a bola de leve para <strong>Dona Lúcia</strong>, na posição 4. <em>Segundo toque.</em></li>
+          <li>Dona Lúcia entrega a bola nas mãos do <strong>Seu Pedro</strong>, na posição 8. <em>Terceiro toque</em> — e é o do 8, como manda a regra.</li>
+          <li>Seu Pedro conta mentalmente, sem pressa, e arremessa para o fundo da quadra Azul. Grita <strong>"câmbio!"</strong>. Agora é o Verde quem roda.</li>
+          <li>No Azul, a bola escapa das mãos do Seu Antônio e quica no chão. <strong>Ponto do Verde.</strong></li>
+          <li>O Verde fez o ponto, então o Verde saca. Quem estiver agora na posição 8 do Verde pega a bola, e tudo recomeça.</li>
+        </ol>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#4ade80;">
+        <h3>🔍 Repare</h3>
+        <ul style="margin:0;padding-left:20px;font-size:.9rem;">
+          <li>Cada time rodou <strong>só quando arremessou</strong>.</li>
+          <li>A bola nunca passou por mais de <strong>três mãos</strong>, e a última foi sempre a do 8.</li>
+          <li>Ninguém saltou, ninguém bateu na bola, ninguém correu atrás dela além do razoável.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ABA 8 -->
+    <div class="tab-panel" id="tab-cuidados">
+      <div class="care">
+        <h2 style="color:#fff;">Câmbio para todos</h2>
+        <p class="sec-intro" style="color:#e0e7ff;">
+          O câmbio nasceu como adaptação. Está no sangue dele abrir espaço para quem quer jogar.
+        </p>
+        <ul>
+          <li><strong>Aqueça antes:</strong> ombros, punhos, joelhos e tornozelos. Cinco a dez minutos bastam.</li>
+          <li><strong>Calçado firme e fechado</strong>, que segure o pé. Chinelo, nunca.</li>
+          <li><strong>Água por perto</strong> e pausa para beber, principalmente em quadra aberta ou na areia.</li>
+          <li><strong>Ninguém se joga no chão</strong> atrás de bola. A bola que cai custa um ponto. O tombo custa meses.</li>
+          <li><strong>Quem tem alguma condição de saúde</strong> conversa com o médico antes de começar e avisa o professor.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>Quando o corpo pede outro jeito</h3>
+        <p>
+          Os regulamentos do câmbio preveem combinações prévias entre os participantes.
+          É por essa porta que entram as adaptações: altura da rede, tamanho do time, tempo
+          de jogo. E é por ela também que se acolhe quem tem alguma limitação nas mãos,
+          nos braços ou na locomoção.
+        </p>
+        <p style="margin-top:12px;">
+          A regra pede bola presa; ela não pede mãos perfeitas. Segurar junto ao peito,
+          prender entre o antebraço e o corpo, receber mais perto: o grupo pode combinar,
+          antes do jogo e com o árbitro, o que vale como bola dominada para cada jogador.
+          <strong>A intenção do câmbio sempre foi incluir.</strong>
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;">
+        <h3>💛 Uma história de quadra</h3>
+        <p style="margin:0;">
+          No time do Cabo Branco, em João Pessoa, joga um Ricardo que tem mobilidade reduzida
+          nas mãos. E ele está entre os melhores em campo. A limitação não o definiu.
+          Viktor Frankl dizia que, quando não podemos mudar uma situação, somos desafiados
+          a mudar a nós mesmos. Em quadra, isso tem nome: <strong>câmbio</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTE ============ -->
+<section id="teste" class="wrap">
+  <p class="sec-kicker">Para praticar</p>
+  <h2 class="sec-title">Teste rápido</h2>
+  <p class="sec-intro">
+    Responda de cabeça. A resposta aparece na hora, com uma explicação em português.
+  </p>
+  <div id="quiz"></div>
+  <div id="quiz-resultado" style="display:none;margin-top:20px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #4ade80;border-radius:18px;padding:22px;text-align:center;">
+    <h3 style="color:#15803d;margin-bottom:8px;">🎉 Parabéns!</h3>
+    <p id="quiz-placar" style="font-size:1rem;margin:0;"></p>
+  </div>
+</section>
+
+<!-- ============ GLOSSÁRIO ============ -->
+<section class="wrap" style="padding-top:0;">
+  <p class="sec-kicker">Consulta</p>
+  <h2 class="sec-title">Glossário</h2>
+  <div style="margin-top:20px;">
+    <details class="gloss"><summary>Arremesso</summary><p>O ato de mandar a bola para o lado adversário com as mãos. Só o jogador da posição 8 arremessa.</p></details>
+    <details class="gloss"><summary>Bola presa</summary><p>A bola segura com as duas mãos, dominada. É a marca registrada do câmbio.</p></details>
+    <details class="gloss"><summary>Câmbio</summary><p>O nome do jogo e o grito do 8 ao arremessar. Quer dizer <em>troca</em>.</p></details>
+    <details class="gloss"><summary>Casa</summary><p>Cada uma das nove posições numeradas da quadra.</p></details>
+    <details class="gloss"><summary>Linha dos 3 metros</summary><p>Linha paralela à rede. O 8 não pode pisar nela nem ultrapassá-la ao arremessar.</p></details>
+    <details class="gloss"><summary>Posição 8</summary><p>O centro da quadra. Quem está nela saca e devolve a bola.</p></details>
+    <details class="gloss"><summary>Rodízio</summary><p>A troca de lugares de todo o time, uma casa adiante, sempre que o 8 arremessa.</p></details>
+    <details class="gloss"><summary>Toque</summary><p>Cada vez que um jogador prende a bola. O time tem no máximo três, e o último é do 8.</p></details>
+  </div>
+</section>
+
+<!-- ============ AUTORIA ============ -->
+<section class="wrap" style="padding-top:0;padding-bottom:24px;">
+  <div style="background:linear-gradient(135deg,#ff6a00,#ff3d8b 50%,#0a5cff);
+              color:#fff;border-radius:22px;padding:36px 26px;text-align:center;
+              box-shadow:0 20px 50px -20px rgba(255,61,139,.7);position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.15) 0, transparent 40px),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,.12) 0, transparent 50px);
+        pointer-events:none;"></div>
+    <p style="text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;
+              font-weight:900;color:#fff;opacity:.9;margin-bottom:14px;position:relative;">
+      Uma palavra do autor
+    </p>
+    <h2 style="font-size:clamp(1.35rem,5vw,1.9rem);font-weight:900;color:#fff;
+               margin-bottom:18px;letter-spacing:-.03em;position:relative;">
+      Feito para os amigos de Brasília
+    </h2>
+    <p style="max-width:620px;margin:0 auto 16px;font-size:1rem;color:#fff;
+              line-height:1.65;position:relative;">
+      Este manual foi feito por mim, <strong>Ricardo de Faria Barros</strong>,
+      para ajudar meus amigos de Brasília a entenderem o jogo do câmbio.
+      É de minha autoria.
+    </p>
+    <p style="max-width:620px;margin:0 auto 18px;font-size:1.05rem;color:#fff;
+              line-height:1.65;font-style:italic;position:relative;">
+      Para principiantes, simpatizantes, e quem se aprochegar.
+    </p>
+    <p style="max-width:620px;margin:0 auto;font-size:1.15rem;font-weight:800;
+              color:#fff;line-height:1.6;position:relative;letter-spacing:-.01em;">
+      Porque câmbio é isso:<br>
+      é se juntar e ficar.
+    </p>
+    <p style="margin-top:22px;font-size:.95rem;font-weight:700;color:#fff;
+              opacity:.95;position:relative;letter-spacing:.02em;">
+      — Ricardo de Faria Barros
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Câmbio</strong> — Manual interativo para principiantes</p>
+  <p style="max-width:660px;margin:12px auto 0;font-style:italic;color:var(--orange-d);font-weight:600;">
+    "Passo a passo, passe a passe, coração a coração: o jeito feliz de se viver"
+  </p>
+  <p style="max-width:620px;margin:20px auto 0;font-size:.92rem;color:var(--ink);line-height:1.65;">
+    Feito por <strong>Ricardo de Faria Barros</strong> para ajudar os amigos de Brasília
+    a entenderem o câmbio. É de minha autoria. Para principiantes, simpatizantes,
+    e quem se aprochegar — porque câmbio é isso, é se juntar e ficar.
+  </p>
+  <p style="max-width:520px;margin:18px auto 0;">
+    Baseado no <em>Manual para Principiantes — Câmbio</em>, de Ricardo de Faria Barros,
+    e nos regulamentos gaúchos (Sesc-RS). Cada região ajusta detalhes: na dúvida,
+    pergunte ao árbitro antes do jogo.
+  </p>
+  <p style="margin-top:22px;font-size:1.5rem;">🏐</p>
+  <p>Que a próxima bola chegue firme às suas mãos.<br>E que você grite <strong>câmbio</strong> com vontade.</p>
+</footer>
+
+<script>
+/* ==========================================================
+   1) ABAS EXPLICATIVAS
+   ========================================================== */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabPanels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  });
+});
+
+/* ==========================================================
+   2) QUADRA INTERATIVA — APENAS 9 POSIÇÕES
+   ========================================================== */
+const POS = {
+  1:  [59, 80],
+  2:  [37, 80],
+  3:  [15, 80],
+  4:  [15, 50],
+  5:  [15, 20],
+  6:  [37, 20],
+  7:  [59, 20],
+  8:  [37, 50],
+  9:  [59, 50]
+};
+
+const PLAYERS = [
+  {name:'Ana',   color:'#ef4444'},
+  {name:'Bento', color:'#f97316'},
+  {name:'Carla', color:'#eab308'},
+  {name:'Davi',  color:'#84cc16'},
+  {name:'Elza',  color:'#22c55e'},
+  {name:'Fábio', color:'#14b8a6'},
+  {name:'Gilda', color:'#06b6d4'},
+  {name:'Hugo',  color:'#3b82f6'},
+  {name:'Inês',  color:'#6366f1'}
+];
+
+const arena    = document.getElementById('arena');
+const statusEl = document.getElementById('status');
+const rodadaEl = document.getElementById('rodada');
+const hintEl   = document.getElementById('hint-rodada');
+const btnCambio= document.getElementById('btnCambio');
+const btnPath  = document.getElementById('btnPath');
+const btnReset = document.getElementById('btnReset');
+const pathSvg  = document.getElementById('pathSvg');
+
+let occupants = {};
+let chips     = [];
+let markers   = {};
+let rodada    = 0;
+let animando  = false;
+
+function buildMarkers(){
+  for (let p = 1; p <= 9; p++){
+    const m = document.createElement('div');
+    m.className = 'marker' + (p === 8 ? ' eight' : '');
+    const [x,y] = POS[p];
+    m.style.left = x + '%';
+    m.style.top  = y + '%';
+
+    const circle = document.createElement('div');
+    circle.className = 'circle';
+    m.appendChild(circle);
+
+    const num = document.createElement('div');
+    num.className = 'number';
+    num.textContent = p;
+    m.appendChild(num);
+
+    arena.appendChild(m);
+    markers[p] = m;
+  }
+}
+
+function buildChips(){
+  PLAYERS.forEach((pl, i) => {
+    const c = document.createElement('div');
+    c.className = 'chip';
+    c.style.background = pl.color;
+    c.textContent = pl.name.slice(0,2).toUpperCase();
+    c.title = pl.name;
+    c.setAttribute('data-nome', pl.name);
+    const arrow = document.createElement('span');
+    arrow.className = 'ghost-arrow';
+    arrow.textContent = '→';
+    c.appendChild(arrow);
+    c.addEventListener('click', () => mostrarNome(pl.name));
+    arena.appendChild(c);
+    chips[i] = c;
+  });
+}
+
+function mostrarNome(nome){
+  const pos = Object.keys(occupants).find(k => PLAYERS[occupants[k]].name === nome);
+  hintEl.textContent = `${nome} está na casa ${pos}`;
+  setTimeout(() => {
+    hintEl.textContent = 'aperte CÂMBIO';
+  }, 2200);
+}
+
+function reset(){
+  occupants = {};
+  for (let p = 1; p <= 9; p++) occupants[p] = p - 1;
+  rodada = 0;
+  limparDestaques();
+  render(false);
+  atualizarStatus('inicial');
+  hintEl.textContent = 'aperte CÂMBIO';
+  animando = false;
+}
+
+function limparDestaques(){
+  Object.values(markers).forEach(m => m.classList.remove('changed','origin'));
+  chips.forEach(c => c.classList.remove('moving'));
+}
+
+function render(animate = true){
+  for (let p = 1; p <= 9; p++){
+    const playerIdx = occupants[p];
+    const el = chips[playerIdx];
+    const [x,y] = POS[p];
+    if (!animate){
+      el.style.transition = 'none';
+    }
+    el.style.left = x + '%';
+    el.style.top  = y + '%';
+    el.classList.toggle('thrower', p === 8);
+    if (!animate){
+      void el.offsetWidth;
+      el.style.transition = '';
+    }
+  }
+  rodadaEl.textContent = rodada;
+}
+
+function atualizarStatus(tipo, dadosAntigos){
+  const eight = PLAYERS[occupants[8]];
+  if (tipo === 'inicial'){
+    statusEl.innerHTML =
+      `Aperte <strong>CÂMBIO!</strong> para ver o time inteiro rodar uma casa.<br>` +
+      `<span class="small">Quem está no <strong>8</strong> agora é ` +
+      `<strong style="color:${eight.color}">${eight.name}</strong> — é quem arremessa.</span>`;
+  } else {
+    const antigo8 = dadosAntigos ? PLAYERS[dadosAntigos[8]] : null;
+    const novo8   = eight;
+    let texto = `Rodada ${rodada}: cada jogador avançou uma casa.`;
+    if (antigo8 && novo8){
+      if (antigo8.name === novo8.name){
+        texto = `Rodada ${rodada}: o time girou uma casa inteira.`;
+      } else {
+        texto = `Rodada ${rodada}: <strong style="color:${antigo8.color}">${antigo8.name}</strong> ` +
+                `arremessou e foi para o 9. Agora quem está no <strong>8</strong> é ` +
+                `<strong style="color:${novo8.color}">${novo8.name}</strong>.`;
+      }
+    }
+    statusEl.innerHTML = texto + `<span class="small">As casas que mudaram ficaram destacadas em azul por um instante.</span>`;
+  }
+}
+
+function rotate(){
+  if (animando) return;
+  animando = true;
+
+  const antigos = Object.assign({}, occupants);
+
+  limparDestaques();
+
+  for (let p = 1; p <= 9; p++){
+    const destino = (p === 9) ? 1 : p + 1;
+    markers[destino].classList.add('changed');
+  }
+  markers[8].classList.add('origin');
+
+  chips.forEach(c => {
+    c.classList.remove('moving');
+    void c.offsetWidth;
+    c.classList.add('moving');
+  });
+
+  const next = {};
+  next[1] = occupants[9];
+  for (let p = 1; p <= 8; p++){
+    next[p + 1] = occupants[p];
+  }
+  occupants = next;
+  rodada++;
+  render(true);
+  atualizarStatus('rodada', antigos);
+
+  statusEl.classList.remove('pulse');
+  void statusEl.offsetWidth;
+  statusEl.classList.add('pulse');
+
+  setTimeout(() => { limparDestaques(); }, 1400);
+  setTimeout(() => { animando = false; }, 850);
+}
+
+btnCambio.addEventListener('click', rotate);
+
+btnReset.addEventListener('click', () => {
+  reset();
+  btnCambio.focus();
+});
+
+btnPath.addEventListener('click', () => {
+  const on = pathSvg.classList.toggle('show');
+  btnPath.classList.toggle('on', on);
+  btnPath.innerHTML = on ? '🙈 Esconder caminho' : '👁️ Mostrar caminho';
+});
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && ['BUTTON','INPUT','TEXTAREA'].indexOf(document.activeElement.tagName) === -1){
+    e.preventDefault();
+    rotate();
+  }
+});
+
+buildMarkers();
+buildChips();
+reset();
+
+/* ==========================================================
+   3) TESTE RÁPIDO
+   ========================================================== */
+const QUIZ = [
+  { q:'Quantos jogadores cada time tem em quadra?',
+    opts:['6','9','12'], a:1,
+    why:'São 9 em quadra e até 3 reservas (que entram pelo rodízio).' },
+  { q:'Quem pode mandar a bola para o lado adversário?',
+    opts:['Qualquer jogador','Só o jogador da posição 8','Só quem está na rede'], a:1,
+    why:'Só o 8 arremessa. Os outros seguram, passam e entregam a bola até ela chegar ao 8.' },
+  { q:'Seu Pedro, na posição 3, recebeu a bola e quer arremessá-la direto para o outro lado. Pode?',
+    opts:['Pode','Não pode'], a:1,
+    why:'Não. Ele precisa fazer a bola chegar ao 8 — e o time tem no máximo três toques.' },
+  { q:'A bola passou por quatro jogadores antes de chegar ao 8. É ponto de quem?',
+    opts:['Do seu time','Do adversário'], a:1,
+    why:'Do adversário. O máximo é de três toques, e o último tem de ser o do 8.' },
+  { q:'Depois do câmbio, quem roda: os dois times ou só um?',
+    opts:['Os dois times','Só o time que arremessou'], a:1,
+    why:'Só roda o time que acabou de arremessar. O outro time fica parado, esperando.' },
+  { q:'Quem está na posição 7 vai para qual posição no próximo câmbio?',
+    opts:['Posição 8','Posição 9','Posição 1'], a:0,
+    why:'A ordem é sempre a dos números: 7 → 8. E quem chega ao 8 é o próximo a arremessar.' },
+  { q:'O 8 deu um pulinho para arremessar mais alto. Vale?',
+    opts:['Vale','Não vale'], a:1,
+    why:'Não. No câmbio ninguém salta — e o 8 também não pode pisar nem passar da linha dos 3 metros.' },
+  { q:'Quanto tempo o 8 tem para soltar a bola no saque?',
+    opts:['3 segundos','8 segundos','15 segundos'], a:1,
+    why:'8 segundos. Pode andar com a bola à vontade, mas tem 8 segundos para soltá-la.' }
+];
+
+const quizEl = document.getElementById('quiz');
+const resultadoEl = document.getElementById('quiz-resultado');
+const placarEl = document.getElementById('quiz-placar');
+
+let acertos = 0;
+let respondidas = 0;
+
+QUIZ.forEach((item, qi) => {
+  const box = document.createElement('div');
+  box.className = 'quiz-item';
+
+  const q = document.createElement('div');
+  q.className = 'quiz-q';
+  q.textContent = (qi + 1) + '. ' + item.q;
+  box.appendChild(q);
+
+  const opts = document.createElement('div');
+  opts.className = 'quiz-opts';
+
+  item.opts.forEach((text, oi) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.type = 'button';
+    b.textContent = text;
+    b.addEventListener('click', () => {
+      if (b.disabled) return;
+      Array.from(opts.children).forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === item.a) btn.classList.add('correct');
+      });
+      if (oi !== item.a) { b.classList.add('wrong'); } else { acertos++; }
+      respondidas++;
+      why.classList.add('show');
+
+      if (respondidas === QUIZ.length) {
+        resultadoEl.style.display = 'block';
+        const pct = Math.round((acertos / QUIZ.length) * 100);
+        let msg = `Você acertou <strong>${acertos} de ${QUIZ.length}</strong> (${pct}%). `;
+        if (pct === 100) msg += 'Perfeito! Você já pode entrar em quadra e gritar câmbio com vontade. 🏐';
+        else if (pct >= 75) msg += 'Muito bem! Revise as abas com calma e você estará pronto.';
+        else if (pct >= 50) msg += 'Bom começo! Releia as abas "Bola presa" e "O rodízio" com atenção.';
+        else msg += 'Sem pressa. Releia o guia completo com calma — o câmbio se aprende jogando, errando e voltando.';
+        placarEl.innerHTML = msg;
+        resultadoEl.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    });
+    opts.appendChild(b);
+  });
+
+  box.appendChild(opts);
+
+  const why = document.createElement('div');
+  why.className = 'quiz-why';
+  why.textContent = item.why;
+  box.appendChild(why);
+
+  quizEl.appendChild(box);
+});
+</script>
+</body>
+</html>
